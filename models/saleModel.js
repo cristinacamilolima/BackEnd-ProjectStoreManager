@@ -16,6 +16,16 @@ const getNewSale = (saleData) => {
   };
 };
 
+const getNewSaleProduct = (saleProductData) => {
+    const {
+        saleId, productId, quantity,
+    } = saleProductData;
+  
+    return {
+        saleId, productId, quantity,
+    };
+  };
+
 const serialize = (saleData) => saleData.map((item) => getNewSale({
     saleId: item.sale_id,
     date: item.date,
@@ -48,7 +58,25 @@ const findById = async (id) => {
   return serialize(resultSales);
 };
 
+const createSale = async () => {
+    const [sale] = await connection.execute(
+      'insert into sales (date) values (NOW());',      
+    );
+    return { saleId: sale.insertId };
+  };
+
+const createSaleProduct = async (saleId, productId, quantity) => {
+    await connection.execute(
+        'insert into sales_products (sale_id, product_id, quantity) values (?, ?, ?)',
+        [saleId, productId, quantity],
+    );
+
+    return getNewSaleProduct({ productId, quantity });
+};
+
 module.exports = {
     getAllSales,
     findById,
+    createSale,
+    createSaleProduct,
 };

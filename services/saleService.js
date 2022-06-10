@@ -44,7 +44,18 @@ const findById = async (id) => {
   return sale.map(getCustomSale);
 };
 
+const create = async (sales) => {        
+    const sale = await saleModel.createSale();
+
+    await Promise.all(sales.map((item) => saleModel.createSaleProduct(
+      sale.saleId, item.productId, item.quantity,
+        )));
+
+    return ({ id: sale.saleId, itemsSold: [...sales] });
+  };
+
 module.exports = {
   getAll,
   findById,
+  create,
 };

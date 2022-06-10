@@ -34,8 +34,10 @@ const isValidSale = (req, res, next) => {
                 return res.status(400).json({ 
                     message: '"quantity" must be greater than or equal to 1' });
             }
-          return next();
+          return null;
     });
+
+    next();
 };
 
 module.exports = { isValidProduct, isValidSale };
