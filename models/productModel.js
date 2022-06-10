@@ -38,7 +38,27 @@ const findById = async (id) => {
   return serialize(resultProducts)[0];
 };
 
+const findByName = async (name) => {
+  const query = 'select id, name, quantity from products where name=?';
+
+  const [resultProducts] = await connection.execute(query, [name]);
+
+  if (resultProducts.length === 0) return null;
+
+  return serialize(resultProducts)[0];
+};
+
+const createProduct = async (name, quantity) => {
+  const [product] = await connection.execute(
+    'insert into products (name, quantity) values (?,?)',
+    [name, quantity],
+  );
+  return getNewProduct({ id: product.insertId, name, quantity });
+};
+
 module.exports = {
   getAllProducts,
   findById,
+  createProduct,
+  findByName,
 };

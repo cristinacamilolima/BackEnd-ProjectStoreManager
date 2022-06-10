@@ -17,13 +17,13 @@ app.get('/products', productController.getAllProducts);
 
 app.get('/products/:id', productController.findProductById);
 
-app.post('/products', validator.isValidProduct, () => { console.log('teste'); });
+app.post('/products', validator.isValidProduct, productController.createProduct);
 
 app.get('/sales', saleController.getAllSales);
 
 app.get('/sales/:id', saleController.findSaleById);
 
-app.post('/sales', validator.isValidSale, () => { console.log('testeSales'); });
+app.post('/sales', validator.isValidSale, () => { });
 
 // não remova essa exportação, é para o avaliador funcionar
 // você pode registrar suas rotas normalmente, como o exemplo acima
