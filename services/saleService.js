@@ -62,9 +62,28 @@ const create = async (sales) => {
     return ({ saleId, itemUpdated: [{ productId, quantity }] });
   };
 
+  const deleteSale = async (id) => {
+    const existingSale = await saleModel.findById(id);
+  
+    if (!existingSale) {
+      return { error: 'Sale not found' };
+    }
+
+    const sale = await saleModel.deleteSale(id);
+  
+    if (!sale) return null;
+
+    const saleProduct = await saleModel.deleteSaleProduct(id);
+  
+    if (!saleProduct) return null;
+  
+    return { id };
+  };
+
 module.exports = {
   getAll,
   findById,
   create,
   update,
+  deleteSale,
 };
