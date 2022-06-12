@@ -64,6 +64,14 @@ const updateProduct = async (id, name, quantity) => {
   return getNewProduct({ id, name, quantity });
 };
 
+const updateStockProduct = async (id, quantity) => {
+  await connection.execute(
+    'update products set quantity=? where id=?',
+    [quantity, id],
+  );
+  return getNewProduct({ id, quantity });
+};
+
 const deleteProduct = async (id) => {
   await connection.execute(
     'delete from products where id=?',
@@ -79,4 +87,5 @@ module.exports = {
   findByName,
   updateProduct,
   deleteProduct,
+  updateStockProduct,
 };

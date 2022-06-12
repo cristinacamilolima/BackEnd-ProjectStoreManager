@@ -58,6 +58,10 @@ const create = async (sales) => {
       sale.saleId, item.productId, item.quantity,
         )));
 
+    await productModel.updateStockProduct(
+      sales[0].productId, (product.quantity - sales[0].quantity),
+      );
+
     return ({ id: sale.saleId, itemsSold: [...sales] });
   };
 
@@ -76,6 +80,8 @@ const create = async (sales) => {
       return { error: 'Sale not found' };
     }
 
+    const product = await productModel.findById(existingSale[0].productId);
+
     const sale = await saleModel.deleteSale(id);
   
     if (!sale) return null;
@@ -83,7 +89,11 @@ const create = async (sales) => {
     const saleProduct = await saleModel.deleteSaleProduct(id);
   
     if (!saleProduct) return null;
-  
+
+    await productModel.updateStockProduct(
+      existingSale[0].productId, (existingSale[0].quantity + product.quantity),
+      );
+
     return { id };
   };
 
