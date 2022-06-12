@@ -19,6 +19,10 @@ const findSaleById = async (req, res) => {
 const createSaleProduct = async (req, res) => {
     const sale = await saleService.create(req.body);
 
+    if (sale.error) {
+        return res.status(422).json({ message: sale.error });
+    }
+
     res.status(201).json(sale);
 };
 

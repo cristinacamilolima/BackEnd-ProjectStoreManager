@@ -1,4 +1,5 @@
 const saleModel = require('../models/saleModel');
+const productModel = require('../models/productModel');
 
 const getNewSale = (saleData) => {
     const {
@@ -44,7 +45,13 @@ const findById = async (id) => {
   return sale.map(getCustomSale);
 };
 
-const create = async (sales) => {        
+const create = async (sales) => {
+    const product = await productModel.findById(sales[0].productId);
+
+    if ((product.quantity - sales[0].quantity) < 1) {
+      return { error: 'Such amount is not permitted to sell' };
+    }
+
     const sale = await saleModel.createSale();
 
     await Promise.all(sales.map((item) => saleModel.createSaleProduct(
