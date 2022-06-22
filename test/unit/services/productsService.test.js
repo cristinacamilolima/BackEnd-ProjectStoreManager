@@ -69,16 +69,11 @@ describe('Buscando produtos por ID', () => {
 
 describe('Criando um produto', () => {
   before(() => {
-    const products = [
-      {
-        "id": 1,
-        "name": "Martelo de Thor",
-        "quantity": 10
-      }
-    ];
-    sinon.stub(productsModel, 'createProduct').resolves(products);
+    sinon.stub(productsModel, 'findByName').resolves();
+    sinon.stub(productsModel, 'createProduct').resolves([]);
   })
   after(() => {
+    productsModel.findByName.restore();
     productsModel.createProduct.restore();
   })
 
