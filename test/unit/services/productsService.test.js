@@ -67,7 +67,7 @@ describe('Buscando produtos por ID', () => {
   })
 });
 
-describe('Deve-se criar um produto', () => {
+describe('Criando um produto', () => {
   before(() => {
     const products = [
       {

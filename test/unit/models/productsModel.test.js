@@ -82,8 +82,7 @@ describe('Criando um produto na base de dados', () => {
   })
 
   it('O produto deve ser criado na base de dados', async () => {
-    const product = await productsModel.createProduct('Martelo de Thor', 10);
-    console.log(product);
+    const product = await productsModel.createProduct('Martelo de Thor', 10);    
     expect(product).to.have.property('id');    
   })
 });
