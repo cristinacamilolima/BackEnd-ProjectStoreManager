@@ -66,24 +66,3 @@ describe('Buscando produtos por ID', () => {
     expect(product).to.be.null;
   })
 });
-
-describe('Criando um produto', () => {
-  before(() => {
-    const products = [
-      {
-        "id": 1,
-        "name": "Martelo de Thor",
-        "quantity": 10
-      }
-    ];
-    sinon.stub(productsModel, 'createProduct').resolves(products);
-  })
-  after(() => {
-    productsModel.createProduct.restore();
-  })
-
-  it('Deve-se criar um produto', async () => {    
-    const product = await productsService.create('Jarvis', 10)
-    expect(product).to.have.property('id');
-  })
-});
