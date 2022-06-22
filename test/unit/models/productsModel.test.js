@@ -53,15 +53,37 @@ describe('Buscando dados pelo Id na base de dados', () => {
   })
 
   it('O retorno dos produtos não é um array', async () => {
-    const response = await productsModel.findById(1);
-    expect(response).not.to.be.an('array');
+    const product = await productsModel.findById(1);
+    expect(product).not.to.be.an('array');
   })
   it('O retorno dos produtos é um objeto', async () => {
-    const response = await productsModel.findById(1);    
-    expect(response).to.be.an('object');
+    const product = await productsModel.findById(1);    
+    expect(product).to.be.an('object');
   })
   it('O retorno não é vazio', async () => {
-    const response = await productsModel.findById(1);
-    expect(response).not.to.be.empty;
+    const product = await productsModel.findById(1);
+    expect(product).not.to.be.empty;
+  })
+});
+
+describe('Criando um produto na base de dados', () => {
+
+  before(() => {
+    const product = [{
+        "id": 1,
+        "name": "Martelo de Thor",
+        "quantity": 10
+      }]
+
+    sinon.stub(connection, 'execute').resolves(product);
+  })
+  after(() => {
+    connection.execute.restore();
+  })
+
+  it('O produto deve ser criado na base de dados', async () => {
+    const product = await productsModel.createProduct('Martelo de Thor', 10);
+    console.log(product);
+    expect(product).to.have.property('id');    
   })
 });

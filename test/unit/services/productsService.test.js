@@ -8,7 +8,7 @@ describe('Buscando todos os produtos', () => {
     const products = [
       {
         "id": 1,
-        "name": "produto A",
+        "name": "Martelo de Thor",
         "quantity": 10
       }
     ];
@@ -19,16 +19,16 @@ describe('Buscando todos os produtos', () => {
   })
 
   it('O retorno dos produtos é um array', async () => {
-    const response = await productsService.getAll();
-    expect(response).to.be.an('array');
+    const product = await productsService.getAll();
+    expect(product).to.be.an('array');
   })
   it('O retorno dos produtos é um objeto', async () => {
-    const [response] = await productsService.getAll();
-    expect(response).to.be.an('object');
+    const [product] = await productsService.getAll();
+    expect(product).to.be.an('object');
   })
   it('O retorno não é vazio', async () => {
-    const [response] = await productsService.getAll();
-    expect(response).not.to.be.empty;
+    const [product] = await productsService.getAll();
+    expect(product).not.to.be.empty;
   })
 });
 
@@ -37,7 +37,7 @@ describe('Buscando produtos por ID', () => {
     const products = [[
       {
         "id": 1,
-        "name": "produto A",
+        "name": "Martelo de Thor",
         "quantity": 10
       }
     ]];
@@ -48,21 +48,42 @@ describe('Buscando produtos por ID', () => {
   })
 
   it('O retorno dos produtos não é um array', async () => {
-    const response = await productsService.findById(1);
-    expect(response).not.to.be.an('array');
+    const product = await productsService.findById(1);
+    expect(product).not.to.be.an('array');
   })
   it('O retorno dos produtos é um objeto', async () => {
-    const response = await productsService.findById(1);    
-    expect(response).to.be.an('object');
+    const product = await productsService.findById(1);    
+    expect(product).to.be.an('object');
   })
   it('O retorno não é vazio', async () => {
-    const response = await productsService.findById(1);
-    expect(response).not.to.be.empty;
+    const product = await productsService.findById(1);
+    expect(product).not.to.be.empty;
     productsModel.findById.restore();
   })
   it('Caso não exista, retorna null', async () => {
     sinon.stub(productsModel, 'findById').resolves(null);
-    const response = await productsService.findById(5);
-    expect(response).to.be.null;
+    const product = await productsService.findById(5);
+    expect(product).to.be.null;
+  })
+});
+
+describe('Deve-se criar um produto', () => {
+  before(() => {
+    const products = [
+      {
+        "id": 1,
+        "name": "Martelo de Thor",
+        "quantity": 10
+      }
+    ];
+    sinon.stub(productsModel, 'createProduct').resolves(products);
+  })
+  after(() => {
+    productsModel.createProduct.restore();
+  })
+
+  it('Deve-se criar um produto', async () => {    
+    const product = await productsService.create('Jarvis', 10)
+    expect(product).to.have.property('id');
   })
 });

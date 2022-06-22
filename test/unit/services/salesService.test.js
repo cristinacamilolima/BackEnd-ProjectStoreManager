@@ -20,16 +20,16 @@ describe('Buscando todas as vendas', () => {
   })
 
   it('O retorno das vendas é um array', async () => {
-    const response = await salesService.getAll();
-    expect(response).to.be.an('array');
+    const sale = await salesService.getAll();
+    expect(sale).to.be.an('array');
   })
   it('O retorno das vendas é um objeto', async () => {
-    const [response] = await salesService.getAll();
-    expect(response).to.be.an('object');
+    const [sale] = await salesService.getAll();
+    expect(sale).to.be.an('object');
   })
   it('O retorno não é vazio', async () => {
-    const [response] = await salesService.getAll();
-    expect(response).not.to.be.empty;
+    const [sale] = await salesService.getAll();
+    expect(sale).not.to.be.empty;
   })
 });
 
@@ -50,21 +50,21 @@ describe('Buscando vendas pelo Id', () => {
   })
 
   it('O retorno das vendas é um array', async () => {
-    const response = await salesService.findById(1);
-    expect(response).to.be.an('array');
+    const sale = await salesService.findById(1);
+    expect(sale).to.be.an('array');
   })
   it('O retorno das vendas é um objeto', async () => {
-    const [response] = await salesService.findById(1);
-    expect(response).to.be.an('object');
+    const [sale] = await salesService.findById(1);
+    expect(sale).to.be.an('object');
   })
   it('O retorno não é vazio', async () => {
-    const response = await salesService.findById(1);
-    expect(response).not.to.be.empty;
+    const sale = await salesService.findById(1);
+    expect(sale).not.to.be.empty;
     salesModel.findById.restore();
   })
   it('Caso não exista, retorna null', async () => {
     sinon.stub(salesModel, 'findById').resolves(null);
-    const response = await salesService.findById(5);
-    expect(response).to.be.null;    
+    const sale = await salesService.findById(5);
+    expect(sale).to.be.null;    
   })
 });

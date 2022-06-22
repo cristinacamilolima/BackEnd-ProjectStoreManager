@@ -4,7 +4,7 @@ const productsService = require('../../../services/productService');
 const productsController = require('../../../controllers/productController');
 
 
-describe('Buscando pelos os produtos no endpoint /products', () => {
+describe('Buscando pelos produtos no endpoint /products', () => {
     const req = {};
     const res = {};
   
